@@ -48,7 +48,7 @@ public class LocationUtil {
         }
     }
 
-    private static void getUserLocation(Context context, FusedLocationProviderClient client, LocationCallback callback) {
+    public static void getUserLocation(Context context, FusedLocationProviderClient client, LocationCallback callback) {
         if(checkLocationPermission(context)){
             client.getLastLocation().addOnSuccessListener(location -> {
                 if (location != null) {

@@ -3,6 +3,7 @@ package com.eliftekin.inviochallenge.fragments;
 import static com.eliftekin.inviochallenge.utils.location.LocationRouteUtil.createRoute;
 import static com.eliftekin.inviochallenge.utils.location.LocationSettingUtil.enableGps;
 import static com.eliftekin.inviochallenge.utils.location.LocationUtil.enableUserLocation;
+import static com.eliftekin.inviochallenge.utils.location.LocationUtil.getUserLocation;
 import static com.eliftekin.inviochallenge.utils.location.LocationUtil.isGpsEnabled;
 import static com.eliftekin.inviochallenge.utils.location.LocationUtil.zoomToUserLocation;
 import static com.eliftekin.inviochallenge.utils.location.MapUtil.bitmapDescriptor;
@@ -47,10 +48,6 @@ public class LocationMapFragment extends Fragment implements OnMapReadyCallback 
 
     double latitude;
     double longitude;
-
-    //kullanıcının konumu için
-    double userLat;
-    double userLng;
 
     GoogleMap mMap;
 
@@ -168,7 +165,12 @@ public class LocationMapFragment extends Fragment implements OnMapReadyCallback 
 
     //seçilen konuma rota oluşturur
     private void getDirections() {
-        createRoute(requireContext(), userLat, userLng, latitude, longitude);
+        getUserLocation(requireContext(), locationClient, new LocationUtil.LocationCallback() {
+            @Override
+            public void onLocationReceived(double userLat, double userLng) {
+                createRoute(requireContext(), userLat, userLng, latitude, longitude);
+            }
+        });
     }
 
 }
